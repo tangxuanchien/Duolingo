@@ -17,7 +17,12 @@ import com.example.duolingo.ui.home.components.Lesson
 import com.example.duolingo.ui.home.components.LessonTitle
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    onClickNavHome: () -> Unit = {},
+    onClickNavProfile: () -> Unit = {},
+    onClickNavLesson: () -> Unit = {}
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -32,10 +37,14 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             Column {
                 Header()
                 LessonTitle()
-                Lesson()
+                Lesson(
+                    onClickNavLesson = onClickNavLesson
+                )
             }
         }
         NavigationBar(
+            onClickNavHome = onClickNavHome,
+            onClickNavProfile = onClickNavProfile,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
         )

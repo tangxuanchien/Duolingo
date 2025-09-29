@@ -15,7 +15,11 @@ import com.example.duolingo.R
 
 @Preview(showBackground = true)
 @Composable
-fun NavigationBar(modifier: Modifier = Modifier.Companion) {
+fun NavigationBar(
+    onClickNavHome: () -> Unit = {},
+    onClickNavProfile: () -> Unit = {},
+    modifier: Modifier = Modifier.Companion
+) {
     Column(
         modifier = modifier
     ) {
@@ -31,7 +35,8 @@ fun NavigationBar(modifier: Modifier = Modifier.Companion) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             IconNavigation(
-                R.drawable.home
+                R.drawable.home,
+                onClickNavigation = onClickNavHome
             )
             IconNavigation(
                 R.drawable.treasure
@@ -46,7 +51,8 @@ fun NavigationBar(modifier: Modifier = Modifier.Companion) {
                 R.drawable.vip
             )
             IconNavigation(
-                R.drawable.options
+                R.drawable.options,
+                onClickNavigation = onClickNavProfile
             )
         }
     }

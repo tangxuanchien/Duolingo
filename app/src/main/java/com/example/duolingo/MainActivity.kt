@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.example.duolingo.navigation.Navigation
 import com.example.duolingo.ui.home.HomeScreen
 import com.example.duolingo.ui.lesson.LessonScreen
 
@@ -12,7 +13,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            LessonScreen()
+            Navigation()
         }
     }
 }

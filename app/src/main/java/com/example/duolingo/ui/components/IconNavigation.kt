@@ -1,5 +1,6 @@
 package com.example.duolingo.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -12,12 +13,16 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun IconNavigation(
     icon: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickNavigation: () -> Unit = {}
 ) {
     Icon(
         imageVector = ImageVector.Companion.vectorResource(icon),
         contentDescription = "Icon Navigation",
         tint = Color.Companion.Unspecified,
         modifier = Modifier.size(35.dp)
+            .clickable{
+                onClickNavigation()
+            }
     )
 }

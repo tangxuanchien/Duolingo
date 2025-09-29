@@ -1,6 +1,7 @@
 package com.example.duolingo.ui.home.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,7 +20,10 @@ import androidx.compose.ui.unit.dp
 import com.example.duolingo.R
 
 @Composable
-fun Lesson(modifier: Modifier = Modifier.Companion) {
+fun Lesson(
+    modifier: Modifier = Modifier,
+    onClickNavLesson: () -> Unit = {}
+) {
     Box(
         modifier = Modifier.Companion.fillMaxWidth()
             .padding(top = 18.dp)
@@ -42,6 +46,9 @@ fun Lesson(modifier: Modifier = Modifier.Companion) {
                 contentDescription = "Icon Level",
                 tint = Color.Companion.Unspecified,
                 modifier = Modifier.Companion.size(80.dp)
+                    .clickable{
+                        onClickNavLesson()
+                    }
             )
             Icon(
                 imageVector = ImageVector.Companion.vectorResource(R.drawable.level_training),

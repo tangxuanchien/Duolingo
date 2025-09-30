@@ -1,5 +1,6 @@
 package com.example.duolingo.ui.lesson.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,13 +18,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.duolingo.R
 
+@Preview(showBackground = true)
 @Composable
 fun LessonHeader(
     progress: Float = 0.4f,
+    hearts: Int = 3,
+    onClickBack: () -> Unit = {},
     modifier: Modifier = Modifier.Companion
 ) {
     Row(
@@ -37,6 +42,9 @@ fun LessonHeader(
             contentDescription = "Icon Lesson",
             tint = Color.Companion.Unspecified,
             modifier = Modifier.Companion.size(24.dp)
+                .clickable{
+                    onClickBack()
+                }
         )
         LinearProgressIndicator(
             progress = { progress },
@@ -54,7 +62,7 @@ fun LessonHeader(
                 modifier = Modifier.Companion.size(20.dp)
             )
             Text(
-                text = "14",
+                text = hearts.toString(),
                 fontWeight = FontWeight.Companion.Bold,
                 fontSize = 18.sp,
                 color = Color(0xFFFF4B4B),

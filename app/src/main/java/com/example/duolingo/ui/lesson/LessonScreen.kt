@@ -1,29 +1,20 @@
 package com.example.duolingo.ui.lesson
 
-import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.AlertDialogDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,138 +23,122 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.duolingo.R
 import com.example.duolingo.ui.lesson.components.LessonAction
 import com.example.duolingo.ui.lesson.components.LessonHeader
+import com.example.duolingo.ui.lesson.components.LessonQuestion
 
 @Preview(showBackground = true)
 @Composable
-fun LessonScreen(modifier: Modifier = Modifier) {
-    var progress by remember { mutableFloatStateOf(0.3f) }
-    var words by remember { mutableStateOf("We can do it!") }
-    val vocabulary = remember { words.split(" ").toMutableStateList() }
+fun LessonScreen(
+    modifier: Modifier = Modifier,
+    onClickBack: () -> Unit = {}
+) {
+    var progress by remember { mutableFloatStateOf(0.2f) }
+    var answer by remember { mutableStateOf("We can do it!") }
+    var question by remember { mutableStateOf("Chúng ta làm được!") }
+    var hearts by remember { mutableIntStateOf(3) }
+    var exercise by remember { mutableStateOf("Translate this sentence") }
+    val vocabulary = remember { answer.split(" ").shuffled().toMutableStateList() }
     var result = remember { mutableStateListOf<String>() }
     var isCheckLesson by remember { mutableStateOf(false) }
+    var isCorrectLesson by remember { mutableStateOf<Boolean?>(null) }
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(bottom = 10.dp, top = 20.dp, start = 14.dp, end = 14.dp)
     ) {
         Column(
-            modifier = Modifier.align(Alignment.TopCenter)
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(horizontal = 12.dp)
+                .padding(top = 16.dp)
         ) {
-            LessonHeader()
-            Text(
-                text = "Translate this sentence",
-                fontWeight = FontWeight.Companion.Bold,
-                fontSize = 24.sp,
-                color = Color(0xFF4B4B4B),
-                modifier = Modifier.padding(vertical = 14.dp)
+            LessonHeader(
+                onClickBack = onClickBack,
+                progress = progress,
+                hearts = hearts
             )
-            Box(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.lesson_avatar_uncheck),
-                    contentDescription = "Lesson Avatar",
-                    modifier = Modifier
-                        .size(170.dp)
-                        .offset(x = (-40).dp, y = 0.dp)
+            LessonQuestion(
+                question = question,
+                exercise = exercise,
+                isCorrectLesson = isCorrectLesson
+            )
+        }
+        Box(
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .padding(horizontal = 12.dp)
+                .padding(
+                    bottom =
+                        if (result.size <= 5) {
+                            160.dp
+                        } else {
+                            100.dp
+                        }
                 )
+        ) {
+            Column {
+                FlowRow(
+                    maxItemsInEachRow = 5,
+                    modifier = Modifier
+                        .padding(vertical = 4.dp)
+                ) {
+                    result.forEach { word ->
+                        Box(
+                            modifier = Modifier
+                                .padding(horizontal = 4.dp, vertical = 8.dp)
+                                .border(2.dp, Color(0xFFE5E5E5), RoundedCornerShape(10.dp))
+                                .clickable(
+                                    enabled = !(isCheckLesson and (isCorrectLesson != null))
+                                ) {
+                                    result.remove(word)
+                                    vocabulary.add(word)
+                                    isCheckLesson = vocabulary.isEmpty()
+                                }
+                        ) {
+                            Text(
+                                text = word,
+                                fontSize = 22.sp,
+                                color = Color(0xFF4B4B4B),
+                                modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        LessonDivider(
+            modifier = Modifier.align(Alignment.Center)
+        )
+
+        FlowRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.Center)
+                .padding(top = 240.dp)
+                .padding(horizontal = 12.dp)
+        ) {
+            vocabulary.forEach { word ->
                 Box(
                     modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .offset(x = (-10).dp, y = (-40).dp)
+                        .padding(horizontal = 4.dp, vertical = 4.dp)
+                        .border(2.dp, Color(0xFFE5E5E5), RoundedCornerShape(10.dp))
+                        .clickable {
+                            vocabulary.remove(word)
+                            result.add(word)
+                            isCheckLesson = vocabulary.isEmpty()
+                        }
                 ) {
-                    Icon(
-                        imageVector = ImageVector.Companion.vectorResource(R.drawable.lession_message),
-                        contentDescription = "Icon Level",
-                        tint = Color.Companion.Unspecified,
-                        modifier = Modifier.Companion
-                            .size(255.dp)
-                    )
-                    Icon(
-                        imageVector = ImageVector.Companion.vectorResource(R.drawable.speaker),
-                        contentDescription = "Icon Level",
-                        tint = Color.Companion.Unspecified,
-                        modifier = Modifier.Companion
-                            .size(30.dp)
-                            .offset(x = 30.dp, y = 90.dp)
-                    )
                     Text(
-                        text = "Chúng ta làm được!",
+                        text = word,
                         fontSize = 22.sp,
-                        lineHeight = 30.sp,
                         color = Color(0xFF4B4B4B),
-                        modifier = Modifier
-                            .offset(x = 65.dp, y = 90.dp)
-                            .width(170.dp)
+                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)
                     )
-                }
-            }
-            HorizontalDivider(
-                thickness = 3.dp,
-                color = Color.LightGray,
-                modifier = Modifier.padding(bottom = 20.dp)
-            )
-            Row {
-                result.forEach { word ->
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = 4.dp)
-                            .border(2.dp, Color(0xFFE5E5E5), RoundedCornerShape(10.dp))
-                            .clickable {
-                                result.remove(word)
-                                vocabulary.add(word)
-                                isCheckLesson = vocabulary.isEmpty()
-                            }
-                    ) {
-                        Text(
-                            text = word,
-                            fontSize = 22.sp,
-                            color = Color(0xFF4B4B4B),
-                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)
-                        )
-                    }
-                }
-            }
-            HorizontalDivider(
-                thickness = 3.dp,
-                color = Color.LightGray,
-                modifier = Modifier.padding(vertical = 20.dp)
-            )
-            HorizontalDivider(
-                thickness = 3.dp,
-                color = Color.LightGray,
-                modifier = Modifier.padding(vertical = 20.dp)
-            )
-            Row {
-                vocabulary.forEach { word ->
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = 4.dp)
-                            .border(2.dp, Color(0xFFE5E5E5), RoundedCornerShape(10.dp))
-                            .clickable {
-                                vocabulary.remove(word)
-                                result.add(word)
-                                isCheckLesson = vocabulary.isEmpty()
-                            }
-                    ) {
-                        Text(
-                            text = word,
-                            fontSize = 22.sp,
-                            color = Color(0xFF4B4B4B),
-                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)
-                        )
-                    }
                 }
             }
         }
@@ -171,10 +146,13 @@ fun LessonScreen(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .align(Alignment.BottomCenter),
             isCheckLesson = isCheckLesson,
+            isCorrectLesson = isCorrectLesson,
+            answer = answer,
             onClickCheckLesson = {
-                Log.d("Check", "LessonScreen: true")
+                isCorrectLesson = result.joinToString(" ") == answer
             }
         )
     }
 }
+
 

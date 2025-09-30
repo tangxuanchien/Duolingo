@@ -45,7 +45,9 @@ fun Navigation(modifier: Modifier = Modifier) {
             }
             entry<Screen.Lesson> {
                 LessonScreen(
-
+                    onClickBack = {
+                        backStack.removeLastOrNull()
+                    }
                 )
             }
         }

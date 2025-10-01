@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.duolingo.ui.lesson.components.LessonAction
+import com.example.duolingo.ui.lesson.components.LessonDivider
 import com.example.duolingo.ui.lesson.components.LessonHeader
 import com.example.duolingo.ui.lesson.components.LessonQuestion
 
@@ -34,7 +35,8 @@ import com.example.duolingo.ui.lesson.components.LessonQuestion
 @Composable
 fun LessonScreen(
     modifier: Modifier = Modifier,
-    onClickBack: () -> Unit = {}
+    onClickBack: () -> Unit = {},
+    onClickLessonSuccess: () -> Unit = {},
 ) {
     var progress by remember { mutableFloatStateOf(0.2f) }
     var answer by remember { mutableStateOf("We can do it!") }
@@ -150,7 +152,8 @@ fun LessonScreen(
             answer = answer,
             onClickCheckLesson = {
                 isCorrectLesson = result.joinToString(" ") == answer
-            }
+            },
+            onClickLessonSuccess = onClickLessonSuccess
         )
     }
 }

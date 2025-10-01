@@ -9,12 +9,14 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.example.duolingo.ui.home.HomeScreen
 import com.example.duolingo.ui.lesson.LessonScreen
+import com.example.duolingo.ui.lesson.LessonSuccess
 import com.example.duolingo.ui.profile.ProfileScreen
 
 sealed interface Screen {
     data object Home : Screen
     data object Profile : Screen
     data object Lesson : Screen
+    data object LessonSuccess : Screen
 }
 
 @Composable
@@ -47,7 +49,15 @@ fun Navigation(modifier: Modifier = Modifier) {
                 LessonScreen(
                     onClickBack = {
                         backStack.removeLastOrNull()
+                    },
+                    onClickLessonSuccess = {
+                        backStack.add(Screen.LessonSuccess)
                     }
+                )
+            }
+            entry<Screen.LessonSuccess> {
+                LessonSuccess(
+
                 )
             }
         }

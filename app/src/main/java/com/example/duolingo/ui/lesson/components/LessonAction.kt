@@ -32,7 +32,8 @@ fun LessonAction(
     isCheckLesson: Boolean = false,
     isCorrectLesson: Boolean? = null,
     answer: String = "Here",
-    onClickCheckLesson: () -> Unit = {}
+    onClickCheckLesson: () -> Unit = {},
+    onClickLessonSuccess: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -142,10 +143,14 @@ fun LessonAction(
         }
 
         Button(
-            onClick = if (isCheckLesson) {
-                onClickCheckLesson
+            onClick = if (isCorrectLesson == true) {
+                onClickLessonSuccess
             } else {
-                {}
+                if (isCheckLesson) {
+                    onClickCheckLesson
+                } else {
+                    {}
+                }
             },
             colors =
                 if (!isCheckLesson and (isCorrectLesson == null)) {

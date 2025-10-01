@@ -26,6 +26,10 @@ Mục tiêu của project là thực hành **OOP, kiến trúc MVI, Room Databas
 
 ---
 
+## Link demo
+
+---
+
 ## 🚀 Cách chạy project
 1. Clone repo:
    ```bash

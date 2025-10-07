@@ -61,11 +61,11 @@ fun LessonScreen(
             LessonHeader(
                 onClickBack = onClickBack,
                 progress = progress,
+                exercise = exercise,
                 hearts = hearts
             )
             LessonQuestion(
                 question = question,
-                exercise = exercise,
                 isCorrectLesson = isCorrectLesson
             )
         }

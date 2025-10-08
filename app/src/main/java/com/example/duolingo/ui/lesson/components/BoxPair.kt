@@ -26,6 +26,7 @@ fun BoxPair(
     item: WordPair = WordPair("word", "word"),
     text: String? = "Word",
     isChoose: Boolean = false,
+    isWrongPair: Boolean = false,
     onClickBoxPair: () -> Unit = {}
 ) {
     Box(
@@ -33,11 +34,11 @@ fun BoxPair(
             .padding(horizontal = 8.dp, vertical = 8.dp)
             .fillMaxWidth()
             .background(
-                if (item.isWordPair.value == true) Color(0xFFecffde) else if(item.isWordPair.value == false) Color(0xFFffdfe0) else if(isChoose) Color(0xFFb5def2) else Color.White
+                if (item.isWordPair.value == true) Color(0xFFecffde) else if(isWrongPair) Color(0xFFffdfe0) else if(isChoose) Color(0xFFb5def2) else Color.White
             )
             .border(
                 2.dp,
-                if (item.isWordPair.value == true) Color(0xFFa4da7c) else if(item.isWordPair.value == false) Color(0xFFff4b4b) else if(isChoose) Color(0xFF1cb0f6) else Color(0xFFE5E5E5),
+                if (item.isWordPair.value == true) Color(0xFFa4da7c) else if(isWrongPair) Color(0xFFff4b4b) else if(isChoose) Color(0xFF1cb0f6) else Color(0xFFE5E5E5),
                 RoundedCornerShape(10.dp)
             )
             .clickable (
@@ -48,7 +49,7 @@ fun BoxPair(
         Text(
             text = text.toString(),
             fontSize = 18.sp,
-            color = if (item.isWordPair.value == true) Color(0xFFa3d97b) else if(item.isWordPair.value == false) Color(0xFFff4b4b) else if(isChoose) Color(0xFF1cb0f6) else Color(0xFF4B4B4B),
+            color = if (item.isWordPair.value == true) Color(0xFFa3d97b) else if(isWrongPair) Color(0xFFff4b4b) else if(isChoose) Color(0xFF1cb0f6) else Color(0xFF4B4B4B),
             modifier = Modifier.Companion
                 .padding(vertical = 24.dp)
                 .align(Alignment.Companion.Center),

@@ -24,7 +24,7 @@ import com.example.duolingo.R
 @Composable
 fun LessonQuestion(
     modifier: Modifier = Modifier.Companion,
-    question: String = "Question",
+    question: String = "We don't talk anymore",
     isCorrectLesson: Boolean? = false
 ) {
     Box(
@@ -66,10 +66,10 @@ fun LessonQuestion(
             Text(
                 text = question,
                 fontSize = 22.sp,
-                lineHeight = 30.sp,
+                lineHeight = 36.sp,
                 color = Color(0xFF4B4B4B),
                 modifier = Modifier.Companion
-                    .offset(x = 65.dp, y = 90.dp)
+                    .offset(x = 66.dp, y = 88.dp)
                     .width(170.dp)
             )
         }

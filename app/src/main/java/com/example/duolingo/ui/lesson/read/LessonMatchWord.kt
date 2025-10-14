@@ -1,4 +1,4 @@
-package com.example.duolingo.ui.lesson
+package com.example.duolingo.ui.lesson.read
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,6 +22,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,7 +36,7 @@ import com.example.duolingo.ui.lesson.components.LessonQuestion
 
 @Preview(showBackground = true)
 @Composable
-fun LessonScreen(
+fun LessonMatchWord(
     modifier: Modifier = Modifier,
     onClickBack: () -> Unit = {},
     onClickLessonSuccess: () -> Unit = {},
@@ -91,8 +94,19 @@ fun LessonScreen(
                     result.forEach { word ->
                         Box(
                             modifier = Modifier
-                                .padding(horizontal = 4.dp, vertical = 8.dp)
+                                .padding(horizontal = 4.dp, vertical = 4.dp)
+                                .clip(RoundedCornerShape(10.dp))
                                 .border(2.dp, Color(0xFFE5E5E5), RoundedCornerShape(10.dp))
+                                .drawBehind {
+                                    val strokeWidth = 4.dp.toPx()
+                                    val y = size.height - strokeWidth / 2
+                                    drawLine(
+                                        color = Color(0xFFE5E5E5),
+                                        start = Offset(0f, y),
+                                        end = Offset(size.width, y),
+                                        strokeWidth = strokeWidth
+                                    )
+                                }
                                 .clickable(
                                     enabled = !(isCheckLesson and (isCorrectLesson != null))
                                 ) {
@@ -128,7 +142,18 @@ fun LessonScreen(
                 Box(
                     modifier = Modifier
                         .padding(horizontal = 4.dp, vertical = 4.dp)
+                        .clip(RoundedCornerShape(10.dp))
                         .border(2.dp, Color(0xFFE5E5E5), RoundedCornerShape(10.dp))
+                        .drawBehind {
+                            val strokeWidth = 4.dp.toPx()
+                            val y = size.height - strokeWidth / 2
+                            drawLine(
+                                color = Color(0xFFE5E5E5),
+                                start = Offset(0f, y),
+                                end = Offset(size.width, y),
+                                strokeWidth = strokeWidth
+                            )
+                        }
                         .clickable {
                             vocabulary.remove(word)
                             result.add(word)

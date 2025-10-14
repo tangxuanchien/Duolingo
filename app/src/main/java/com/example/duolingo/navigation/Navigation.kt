@@ -8,7 +8,7 @@ import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.example.duolingo.ui.home.HomeScreen
-import com.example.duolingo.ui.lesson.LessonScreen
+import com.example.duolingo.ui.lesson.read.LessonMatchWord
 import com.example.duolingo.ui.lesson.LessonSuccess
 import com.example.duolingo.ui.profile.ProfileScreen
 
@@ -46,7 +46,7 @@ fun Navigation(modifier: Modifier = Modifier) {
                 )
             }
             entry<Screen.Lesson> {
-                LessonScreen(
+                LessonMatchWord(
                     onClickBack = {
                         backStack.removeLastOrNull()
                     },

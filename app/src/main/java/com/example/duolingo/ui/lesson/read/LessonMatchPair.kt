@@ -1,4 +1,4 @@
-package com.example.duolingo.ui.lesson
+package com.example.duolingo.ui.lesson.read
 
 import android.util.Log
 import androidx.compose.foundation.background

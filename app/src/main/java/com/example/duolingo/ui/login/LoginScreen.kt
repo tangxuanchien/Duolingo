@@ -1,0 +1,133 @@
+package com.example.duolingo.ui.login
+
+import android.util.Log
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.duolingo.ui.components.InputTextField
+import com.example.duolingo.ui.components.OutlinedButton
+
+@Preview(showBackground = true)
+@Composable
+fun LoginScreen(
+    modifier: Modifier = Modifier,
+    onClickLogin: () -> Unit = {},
+    viewModel: LoginViewModel = viewModel()
+) {
+    val state by viewModel.state.collectAsState()
+    var isPasswordVisible by remember { mutableStateOf(false) }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+            .padding(horizontal = 12.dp)
+            .padding(top = 16.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(top = 50.dp)
+        ) {
+            Text(
+                text = "Sign in account",
+                fontWeight = FontWeight.Companion.Bold,
+                fontSize = 26.sp,
+                color = Color(0xFF4B4B4B),
+                modifier = Modifier.Companion.padding(vertical = 14.dp)
+            )
+            InputTextField(
+                value = state.email,
+                onValueChange = {
+                    viewModel.processIntent(LoginIntent.ChangeEmail(it))
+                },
+                placeholder = "Email",
+                modifier = Modifier.padding(bottom = 20.dp)
+            )
+            InputTextField(
+                value = state.password,
+                onValueChange = {
+                    viewModel.processIntent(LoginIntent.ChangePassword(it))
+                },
+                placeholder = "Password",
+                isPasswordVisible = isPasswordVisible,
+                onClickTogglePassword = {
+                    isPasswordVisible = !isPasswordVisible
+                },
+                modifier = Modifier.padding(bottom = 20.dp)
+            )
+            Button(
+                onClick = {
+                    viewModel.processIntent(LoginIntent.Login)
+                },
+                colors =
+                    if (state.email.isEmpty() || state.password.isEmpty()) {
+                        ButtonDefaults.buttonColors(
+                            contentColor = Color(0xFF777777),
+                            containerColor = Color(0xFFD9D9D9)
+                        )
+                    } else {
+                        ButtonDefaults.buttonColors(
+                            contentColor = Color(0xFFFFFFFF),
+                            containerColor = Color(0xFF58CC02)
+                        )
+                    },
+                enabled = state.email.isNotEmpty() && state.password.isNotEmpty(),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.padding(bottom = 30.dp)
+            ) {
+                Row(
+                    modifier = Modifier.Companion
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.Companion.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "Login".uppercase(),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Companion.Bold
+                    )
+                }
+            }
+            OutlinedButton(
+                text = "Login with Google",
+                onClick = {
+
+                },
+                fontWeight = FontWeight.Bold,
+                enabledIcon = true,
+                modifier = Modifier
+            )
+            OutlinedButton(
+                text = "Sign Up",
+                onClick = {},
+                fontWeight = FontWeight.Bold,
+                isSignUpButton = true
+            )
+        }
+    }
+}
+

@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.app.ActivityCompat
 import com.example.duolingo.navigation.Navigation
 import com.example.duolingo.ui.lesson.listen.LessonChoice
+import com.example.duolingo.ui.login.LoginScreen
 
 class MainActivity : ComponentActivity() {
     private val REQUEST_CODE_AUDIO = 100
@@ -18,7 +19,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         requestAudioPermission()
         setContent {
-            LessonChoice()
+            LoginScreen()
         }
     }
 

@@ -28,6 +28,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.duolingo.ui.components.InputTextField
 import com.example.duolingo.ui.lesson.components.LessonAction
 import com.example.duolingo.ui.lesson.components.LessonHeader
 import com.example.duolingo.ui.lesson.components.LessonQuestion
@@ -69,29 +70,15 @@ fun LessonTypeInput(
                 question = question,
                 isCorrectLesson = isCorrectLesson
             )
-            OutlinedTextField(
+            InputTextField(
                 value = input,
                 onValueChange = {
                     input = it
-                    isCheckLesson = input.isNotEmpty()
                 },
-                placeholder = {
-                    Text(
-                        text = "Type answer here ...",
-                        fontSize = 20.sp,
-                        color = Color(0xFFCCCCCC)
-                    )
-                },
-                shape = RoundedCornerShape(10.dp),
-                maxLines = 3,
-                textStyle = TextStyle(
-                    fontSize = 20.sp
-                ),
+                placeholder = "Type answer here ...",
                 modifier = modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 150.dp)
+                    .heightIn(min = 170.dp)
                     .offset(x = 0.dp, y = -(50).dp)
-                    .border(2.dp, Color(0xFFE5E5E5), RoundedCornerShape(10.dp))
             )
         }
         LessonAction(

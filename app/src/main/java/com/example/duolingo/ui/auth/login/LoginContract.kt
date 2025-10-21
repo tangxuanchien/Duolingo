@@ -1,4 +1,4 @@
-package com.example.duolingo.ui.login
+package com.example.duolingo.ui.auth.login
 
 data class LoginState(
     val email: String = "",

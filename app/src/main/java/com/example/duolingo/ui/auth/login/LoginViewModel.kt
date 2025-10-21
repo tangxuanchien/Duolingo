@@ -1,4 +1,4 @@
-package com.example.duolingo.ui.login
+package com.example.duolingo.ui.auth.login
 
 import androidx.lifecycle.ViewModel
 import com.example.duolingo.log
